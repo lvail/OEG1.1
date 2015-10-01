@@ -1,0 +1,6 @@
+client
+org.eclipse.wb.swing
+server
+shared
+shared.action
+test

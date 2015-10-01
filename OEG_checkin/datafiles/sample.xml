@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<!-- This is a sample general simulation data input file    -->
+<!-- Created by Kevin Brewer 10/14/11                       -->
+<!-- Feel free to alter data format and XML tags/structure. -->
+<simdata version="OEG01">
+  <simname>Sample Simulation 01</simname>
+  <simdomain layers="3">
+    <fudge>10</fudge>                  <!--  Fudge percentage is the maximum percentage by which the layer elevation will be skewed. -->
+    <removepercent>10</removepercent>   <!--  Remove percentage is the probability by which the bottom layer elevation will be removed
+                                                from seismic requests. Higher layers have even less of a chance of being moved. -->
+    <xdim>10</xdim>
+    <ydim>10</ydim>
+    <gridsize>1320</gridsize>           <!-- Grid size is in feet. 1320 represents a 4x4 discritization of a square mile. -->
+    <layer lay="1">                     <!-- Layer 1 never has oil or gas -->
+      <top src="layer1.csv"></top>      <!-- all layer top elevations are in feet above mean sea level (AMSL) -->
+<!-- 
+    Format of top files: Comma separated. Oriented E-W (rows) and N-S (columns). Elevations of tops of layers, in feet 
+                         above mean sea level (AMSL) (always integers, negative or positive). Blanks indicate missing layer at that grid. Note, since layers are
+                         about geologic types, surface layer may not be layer 1!
+-->
+      <rocktype>Shale</rocktype>
+    </layer>
+    
+    <layer lay="2">
+      <top src="layer2.csv"></top>
+      <oil src="oil2.csv"></oil>
+      <gas src="gas2.csv"></gas>        
+<!-- 
+    Format of oil or gas files: Comma separated. Production rates in barrels per day or 1000 cubic feet per day for each 
+                                grid cell. Zero means no oil/gas. 
+-->
+      <rocktype>Sandstone</rocktype>
+    </layer>
+    <layer lay="3">                     <!-- Bottom layer never has oil or gas -->
+      <top src="layer3.csv"></top>
+      <rocktype>Basalt</rocktype>
+    </layer>
+    <bottom>1150</bottom>               <!-- Bottom is the flat bottom elevation of the lowest layer. -->
+  </simdomain>
+  <simtimesteps simsteptime="30">          <!-- simsteptime is the number of days each step represents in the simulation -->
+    <numsteps>20</numsteps>
+    <steptime>5</steptime>             <!-- step time units are minutes and represent how long students have for each time step -->
+  </simtimesteps>
+  <simmoney denom="USdollar">
+    <seismicsetup>50000</seismicsetup>  <!-- this is setup/mobilization cost to do survey. -->
+    <seismiclinear>1500</seismiclinear> <!-- this is additional cost based on length of survey line (either N-S or E-W) per grid cell -->
+    <startcash>1000000</startcash>
+    <drillcost>50000</drillcost>
+    <minleasecost>500</minleasecost>    <!-- this is minimum lease bid per grid cell -->
+    <oilincome>100</oilincome>          <!-- units are per barrel -->
+    <gasincome>50</gasincome>           <!-- units are per 1000 cubic feet -->
+<!-- 
+    Oil and gas revenue per time step determined by multiplying oil or gas rate given in "oil" and "gas" files/tags above, 
+    with the simsteptime, with these income prices 
+-->
+  </simmoney>
+</simdata>
+

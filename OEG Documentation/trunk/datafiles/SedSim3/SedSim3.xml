@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<!--                                     -->
+<!-- This is an OEG simulation data input file for a 100x100 square simulation    -->
+<!-- Created by Kevin Brewer 12/03/13                       -->
+<!--                                     -->
+<simdata version="OEG01">
+  <simname>SedSim3</simname>
+  <simdomain layers="5">
+    <fudge>10</fudge>                  <!--  Fudge percentage is the maximum percentage by which the layer elevation will be skewed. -->
+    <removepercent>25</removepercent>   <!--  Remove percentage is the probability by which the bottom layer elevation will be removed
+                                                from seismic requests. Higher layers hav even less of a chance of being moved. -->
+    <xdim>100</xdim>
+    <ydim>100</ydim>
+    <gridsize>1320</gridsize>           <!-- Grid size is in feet. 1320 represents a 4x4 discritization of a square mile. -->
+    <layer lay="1">                     <!-- Layer 1 never has oil or gas -->
+      <top src="layer0.csv"></top>      <!-- all layer top elevations are in feet above mean sea level (AMSL) -->
+<!-- 
+						Format of top files: Comma separated. Oriented E-W (rows) and N-S (columns). Elevations of tops of layers, in feet 
+                         above mean sea level (AMSL) (always integers, negative or positive). Blanks indicate missing layer at that grid. Note, since layers are
+                         about geologic types, surface layer may not be just layer 1!
+-->
+      <rocktype>608</rocktype>
+    </layer>
+    
+    <layer lay="2">
+      <top src="layer1.csv"></top>
+      <rocktype>618</rocktype>
+    </layer>
+    <layer lay="3">                     
+      <top src="layer2.csv"></top>
+      <rocktype>622</rocktype>
+    </layer>
+    <layer lay="4">                     
+      <top src="layer2.csv"></top>
+	  <oil src="oil.csv"></oil>
+      <gas src="gas.csv"></gas>        
+<!-- 
+    Format of oil or gas files: Comma separated. Production rates in barrels per day or 1000 cubic feet per day for each 
+                                grid cell. Zero means no oil/gas. 
+-->
+      <rocktype>608</rocktype>
+    </layer>
+    <layer lay="5">                     <!-- Bottom layer never has oil or gas -->
+      <top src="layer4.csv"></top>
+      <rocktype>622</rocktype>
+    </layer>
+    <bottom>50</bottom>               <!-- Bottom is the flat bottom elevation of the lowest layer. -->
+  </simdomain>
+  <simtimesteps simsteptime="90">          <!-- simsteptime is the number of days each step represents in the simulation -->
+    <numsteps>20</numsteps>
+    <steptime>5</steptime>             <!-- step time units are minutes and represent how long students have for each time step -->
+  </simtimesteps>
+  <simmoney denom="USdollar">
+    <seismicsetup>30000</seismicsetup>  <!-- this is setup/mobilization cost to do survey. -->
+    <seismiclinear>5000</seismiclinear> <!-- this is additional cost based on length of survey line (either N-S or E-W) per grid cell -->
+    <startcash>2500000</startcash>
+    <drillcost>400000</drillcost>
+    <minleasecost>5000</minleasecost>    <!-- this is minimum lease bid per grid cell -->
+    <oilincome>100</oilincome>          <!-- units are per barrel -->
+    <gasincome>4</gasincome>           <!-- units are per 1000 cubic feet -->
+<!-- 
+    Oil and gas revenue per time step determined by multiplying oil or gas rate given in "oil" and "gas" files/tags above, 
+    with the simsteptime, with these income prices 
+-->
+  </simmoney>
+</simdata>
+

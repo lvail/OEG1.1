@@ -1,0 +1,45 @@
+fudgeValue: 10, rand: 0.4615, depth: 15.000000, before: 1205, after: 1205, amount:   0, percent: 0.000
+fudgeValue: 10, rand: 0.0057, depth: 15.000000, before: 1195, after: 1195, amount:   0, percent: 0.000
+fudgeValue: 10, rand: 0.5148, depth: 10.000000, before: 1198, after: 1198, amount:   0, percent: 0.000
+fudgeValue: 10, rand: 0.8697, depth: 15.000000, before: 1189, after: 1190, amount:   1, percent: 0.001
+fudgeValue: 10, rand: 0.7357, depth: 5.000000, before: 1195, after: 1195, amount:   0, percent: 0.000
+fudgeValue: 10, rand: 0.6110, depth: 6.000000, before: 1194, after: 1194, amount:   0, percent: 0.000
+fudgeValue: 10, rand: 0.0296, depth: 12.000000, before: 1193, after: 1193, amount:   0, percent: 0.000
+fudgeValue: 10, rand: 0.6439, depth: 13.000000, before: 1202, after: 1202, amount:   0, percent: 0.000
+fudgeValue: 10, rand: 0.2820, depth: 10.000000, before: 1201, after: 1201, amount:   0, percent: 0.000
+fudgeValue: 10, rand: 0.2943, depth: 11.000000, before: 1196, after: 1196, amount:   0, percent: 0.000
+layer 1200 removed.
+fudgeValue: 10, rand: 0.1370, depth: 9.000000, before: 1197, after: 1197, amount:   0, percent: 0.000
+fudgeValue: 10, rand: 0.2943, depth: 380.000000, before: 1092, after: 1103, amount:  11, percent: 0.010
+fudgeValue: 10, rand: 0.2253, depth: 384.000000, before: 1088, after: 1096, amount:   8, percent: 0.007
+fudgeValue: 10, rand: 0.1836, depth: 380.000000, before: 1092, after: 1098, amount:   6, percent: 0.005
+fudgeValue: 10, rand: 0.9402, depth: 378.000000, before: 1094, after: 1129, amount:  35, percent: 0.032
+fudgeValue: 10, rand: 0.4371, depth: 377.000000, before: 1095, after: 1111, amount:  16, percent: 0.015
+fudgeValue: 10, rand: 0.2515, depth: 375.000000, before: 1097, after: 1106, amount:   9, percent: 0.008
+fudgeValue: 10, rand: 0.1292, depth: 372.000000, before: 1100, after: 1104, amount:   4, percent: 0.004
+fudgeValue: 10, rand: 0.7913, depth: 371.000000, before: 1102, after: 1131, amount:  29, percent: 0.026
+fudgeValue: 10, rand: 0.8856, depth: 369.000000, before: 1103, after: 1135, amount:  32, percent: 0.029
+fudgeValue: 10, rand: 0.2316, depth: 370.000000, before: 1105, after: 1113, amount:   8, percent: 0.007
+fudgeValue: 10, rand: 0.7429, depth: 373.000000, before: 1106, after: 1133, amount:  27, percent: 0.024
+fudgeValue: 10, rand: 0.0564, depth: 375.000000, before: 1108, after: 1110, amount:   2, percent: 0.002
+fudgeValue: 10, rand: 0.6515, depth: 377.000000, before: 1111, after: 1135, amount:  24, percent: 0.022
+fudgeValue: 10, rand: 0.6541, depth: 379.000000, before: 1112, after: 1136, amount:  24, percent: 0.022
+layer 1117 removed.
+fudgeValue: 10, rand: 0.2451, depth: 384.000000, before: 1118, after: 1127, amount:   9, percent: 0.008
+fudgeValue: 10, rand: 0.0119, depth: 386.000000, before: 1119, after: 1119, amount:   0, percent: 0.000
+fudgeValue: 10, rand: 0.8621, depth: 387.000000, before: 1121, after: 1154, amount:  33, percent: 0.029
+fudgeValue: 10, rand: 0.9678, depth: 417.000000, before: 1055, after: 1095, amount:  40, percent: 0.038
+layer 1055 removed.
+fudgeValue: 10, rand: 0.9410, depth: 417.000000, before: 1055, after: 1094, amount:  39, percent: 0.037
+layer 1056 removed.
+fudgeValue: 10, rand: 0.7491, depth: 416.000000, before: 1056, after: 1087, amount:  31, percent: 0.029
+fudgeValue: 10, rand: 0.0394, depth: 415.000000, before: 1057, after: 1058, amount:   1, percent: 0.001
+fudgeValue: 10, rand: 0.4010, depth: 415.000000, before: 1058, after: 1074, amount:  16, percent: 0.015
+fudgeValue: 10, rand: 0.9934, depth: 412.000000, before: 1060, after: 1100, amount:  40, percent: 0.038
+fudgeValue: 10, rand: 0.0174, depth: 409.000000, before: 1063, after: 1063, amount:   0, percent: 0.000
+fudgeValue: 10, rand: 0.7924, depth: 409.000000, before: 1064, after: 1096, amount:  32, percent: 0.030
+layer 1065 removed.
+fudgeValue: 10, rand: 0.2247, depth: 406.000000, before: 1066, after: 1075, amount:   9, percent: 0.008
+fudgeValue: 10, rand: 0.6425, depth: 407.000000, before: 1067, after: 1093, amount:  26, percent: 0.024
+fudgeValue: 10, rand: 0.8030, depth: 406.000000, before: 1068, after: 1100, amount:  32, percent: 0.030
+fudgeValue: 10, rand: 0.1230, depth: 409.000000, before: 1069, after: 1074, amount:   5, percent: 0.005
