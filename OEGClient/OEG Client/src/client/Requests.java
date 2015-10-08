@@ -118,15 +118,18 @@ public class Requests extends JFrame {
 	 */
 	public Requests() {
 	    this.clientApplet = new ClientApplet(this);
-
-		setBackground(Color.WHITE);
-		getContentPane().setLayout(null);
+        JFrame b = new JFrame("TEST");
+		b.setBackground(Color.WHITE);
+        //setBackground(Color.WHITE);
+        b.getContentPane().setLayout(null);
+		//getContentPane().setLayout(null);
 
 		panel_1 = new JPanel();
 		panel_1.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		panel_1.setLayout(null);
 		panel_1.setBounds(0, 0, 853, 598);
-		getContentPane().add(panel_1);
+        b.getContentPane().add(panel_1);
+		//getContentPane().add(panel_1);
 		
 		sliceView = new JPanel();
 		mapScrollPane = new JScrollPane();
@@ -144,6 +147,8 @@ public class Requests extends JFrame {
 		cellInfoPanel(panel_1);
 		messagePanel(panel_1);
 		SLButton.setSelected(true);
+        b.setSize(100,100); //
+        b.setVisible(true); //
 	}
 	
 	/** Create the top info panel, including team name label and bank amount labels
