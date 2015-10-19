@@ -1,5 +1,7 @@
 package server;
 
+// This is my comment to prove git workes.
+
 import java.awt.Point;
 import java.io.File;
 import java.io.IOException;
@@ -109,7 +111,7 @@ public class Director {
             // get the handler that will process the XML file and place results
             // in newGrid.
             ParseSimulationXML handler =
-                    new ParseSimulationXML(xmlFile, newGrid);
+                            new ParseSimulationXML(xmlFile, newGrid);
 
             // if not in test mode, use the parameter file and parse.
             if (!Messages.TESTMODE)
@@ -123,13 +125,14 @@ public class Director {
         catch (SAXException e) {
             // if the parsing goes wrong, update UI.
             manage.setStatus(e.getMessage());
-            if (Messages.TESTMODE) e.printStackTrace();
+            if (Messages.TESTMODE)
+                e.printStackTrace();
             throw new Error("File not valid OEG XML, or CSV not Found.");
-        } 
+        }
         catch (IOException e) {
             manage.setStatus("Problem with XML file.");
             e.printStackTrace();
-        } 
+        }
         catch (ParserConfigurationException e) {
             e.printStackTrace();
         }
@@ -147,17 +150,18 @@ public class Director {
      *            The team name of the new client.
      */
     public void newClient(ServerMessages client, boolean register, String name,
-            String password) {
+                    String password) {
         if (register && manage.registerDisabled) {
             client.sendWarning(
-                    "Registration has been disabled by the Instructor.");
+                            "Registration has been disabled by the Instructor.");
             return;
         }
         ServerOperator addOp;
         int exists = -1;
         // Checks to see if the operator (based on name) already exists
         for (int i = 0; i < numOperators; i++) {
-            if (operators[i] == null) continue;
+            if (operators[i] == null)
+                continue;
             if (operators[i].getName().equals(name)) {
                 exists = i;
             }
@@ -168,12 +172,12 @@ public class Director {
             System.out.println("reg");
             if (!register) {
                 client.sendWarning(
-                        "Invalid team name, please use register if you wish to create a team.");
+                                "Invalid team name, please use register if you wish to create a team.");
                 return;
             }
             // create a new Operator with team name and socket
             addOp = operators[numOperators] =
-                    new ServerOperator(this, name, password, client);
+                            new ServerOperator(this, name, password, client);
 
             // send the operator current game information
             sendGameInfo(client);
@@ -183,7 +187,8 @@ public class Director {
             manage.addOperator(addOp);
             // increment the number of operators
             numOperators++;
-        } else {
+        }
+        else {
             addOp = operators[exists];
             System.out.println("con " + addOp.socket);
             if (!addOp.password.equals(password)) {
@@ -244,9 +249,9 @@ public class Director {
     private void sendGameInfo(ServerMessages client) {
         // send the operator current timer information.
         client.startTimer(timerHandler.getTimeRemaining(), roundLength,
-                curRound, numRounds);
+                        curRound, numRounds);
         client.sendGridLimits(grid.getDimensions().x, grid.getDimensions().y,
-                grid.getNumLayers(), grid.getAllLayers());
+                        grid.getNumLayers(), grid.getAllLayers());
         client.sendBidLimit(Action.getMinBid());
         client.sendSeismicCosts(Action.seismicCostsToSocket());
         client.sendDrillCost(Action.drillCost);
@@ -270,12 +275,13 @@ public class Director {
         // for every operator, notify end of round, add round event to his log
         // and reset the action queues.
         for (int i = 0; i < numOperators; i++) {
-            if (operators[i] == null) continue;
+            if (operators[i] == null)
+                continue;
             // send end of round notification to the operator
             operators[i].endRound(roundLength, roundLength, curRound,
-                    numRounds);
+                            numRounds);
             System.out.printf("Player %d: %s Notified of End of Round\n", i,
-                    operators[i].toString());
+                            operators[i].toString());
         }
 
         manage.refreshInfo();
@@ -293,12 +299,13 @@ public class Director {
         // for every operator, notify end of round, add round event to his log
         // and reset the action queues.
         for (int i = 0; i < numOperators; i++) {
-            if (operators[i] == null) continue;
+            if (operators[i] == null)
+                continue;
             // send end of round notification to the operator
             operators[i].endRound(timerHandler.getTimeRemaining(), roundLength,
-                    curRound, numRounds);
+                            curRound, numRounds);
             System.out.printf("Player %d: %s Notified of End of Round\n", i,
-                    operators[i].toString());
+                            operators[i].toString());
         }
 
         manage.refreshInfo();
@@ -316,7 +323,7 @@ public class Director {
         for (int i = 0, j = 0; i < numOperators; i++) {
             if ((operators[i] != null)) {
                 System.out.println(operators[j] + ": "
-                        + operators[j].getBidQueue().toString());
+                                + operators[j].getBidQueue().toString());
                 list[i] = operators[j++].getBidQueue();
             }
         }
@@ -327,7 +334,8 @@ public class Director {
         for (Bid w : winners) {
             System.out.println(++h);
             for (int i = 0, j = 0; i < numOperators; i++) {
-                if ((operators[i] != null)) operators[i].setOwnership(w);
+                if ((operators[i] != null))
+                    operators[i].setOwnership(w);
             }
         }
     }
@@ -340,7 +348,8 @@ public class Director {
         LinkedList<SeismicRequest> seismic;
         // for every operator
         for (int i = 0; i < numOperators; i++) {
-            if (operators[i] == null) continue;
+            if (operators[i] == null)
+                continue;
             seismic = operators[i].getSeismicQueue();
             // for every request in the operator's queue
             for (SeismicRequest s : seismic) {
@@ -363,7 +372,8 @@ public class Director {
         LinkedList<Drill> drill;
         // for every operator
         for (int i = 0; i < numOperators; i++) {
-            if (operators[i] == null) continue;
+            if (operators[i] == null)
+                continue;
             drill = operators[i].getDrillQueue();
             // for every request in the operator's queue
             for (Drill d : drill) {
@@ -372,7 +382,7 @@ public class Director {
                 Point p = d.getPoint();
                 grid.setDrilled(p, true);
                 operators[i].sendDrillStuffs(d.toSocket(),
-                        grid.cellToSocket(p));
+                                grid.cellToSocket(p));
                 /*
                  * d.toSocket(), grid.getGasArray(p), grid.getOilArray(p),
                  * grid.getGasSocket(p), grid.getOilSocket(p),
