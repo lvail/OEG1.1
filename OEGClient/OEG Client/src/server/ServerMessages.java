@@ -30,7 +30,7 @@ public class ServerMessages extends Messages {
         this.director = inDirector;
 
         // notify client of successful connection
-        sockOut.println("server:Connection Made with " + IP + ".");
+        socketOut.println("server:Connection Made with " + IP + ".");
     }
 
     /**

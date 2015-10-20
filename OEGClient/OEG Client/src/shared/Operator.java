@@ -19,13 +19,13 @@ public class Operator {
      * The instance of Grid containing only information that this Operator is
      * aware of.
      */
-    protected Grid                       opGrid;
+    protected Grid opGrid;
     /** The name of the Operator user */
-    protected String                     teamName;
+    protected String teamName;
     /**
      * The current queue of bids the operator is planning for this round
      */
-    protected LinkedList<Bid>            bidQueue;
+    protected LinkedList<Bid> bidQueue;
     /**
      * The current queue of seismic requests the operator is planning for this
      * round
@@ -35,7 +35,7 @@ public class Operator {
      * The current queue of drill requests the operator is planning for this
      * round
      */
-    protected LinkedList<Drill>          drillQueue;
+    protected LinkedList<Drill> drillQueue;
 
     /**
      * The bank account holding balance information for this Operator
@@ -44,29 +44,29 @@ public class Operator {
     /**
      * The socket connection to or from the server for this Operator
      */
-    public Messages       socket;
+    public Messages socket;
 
     /**
      * Creates a new Operator given a team name and a socket.
      * 
-     * @param teamName
+     * @param teamNameIn
      *            is the name of the team.
-     * @param socket
+     * @param socketIn
      *            is the socket that messages will be passed to.
      */
-    public Operator(String teamName, Messages socket) {
-        this.teamName = teamName;
-        this.socket = socket;
+    public Operator(String teamNameIn, Messages socketIn) {
+        teamName = teamNameIn;
+        socket = socketIn;
         // Give the pre-existing socket a
         // reference to this Operator
-        this.socket.setOperator(this);
+        socket.setOperator(this);
 
-        this.bank = new BankAccount();
+        bank = new BankAccount();
 
         // initialize Action queues
-        this.bidQueue = new LinkedList<Bid>();
-        this.seismicQueue = new LinkedList<SeismicRequest>();
-        this.drillQueue = new LinkedList<Drill>();
+        bidQueue = new LinkedList<Bid>();
+        seismicQueue = new LinkedList<SeismicRequest>();
+        drillQueue = new LinkedList<Drill>();
     }
 
     /**
@@ -201,7 +201,7 @@ public class Operator {
      *            The queue from which the action is to be removed.
      */
     public void removeFromQueue(Action remove,
-            LinkedList<? extends Action> queue) {
+                    LinkedList<? extends Action> queue) {
         // iterate through the queue
         Iterator<? extends Action> i = queue.iterator();
         // for every element in the queue
@@ -364,7 +364,7 @@ public class Operator {
      *            The int array of oil rate values at different layers at p.
      */
     public void drillRequestResult(Point p, Integer[] gas, Integer[] oil,
-            LithologicType[] rock) {
+                    LithologicType[] rock) {
         boolean in = true;
         opGrid.setDrilled(p, in);
         opGrid.setGas(p, gas);

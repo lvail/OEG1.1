@@ -26,38 +26,38 @@ public class Messages extends Thread {
     public final static boolean TESTMODE = false;
 
     /** The socket associated with this Messages object. */
-    protected Socket         sock;
+    protected Socket messageSocket;
     /**
      * The output container to the socket, to which Strings are sent/written.
      */
-    protected PrintWriter    sockOut;
+    protected PrintWriter socketOut;
     /** The input container to the socket, from which Strings are received. */
-    protected BufferedReader sockIn;
+    protected BufferedReader socketIn;
     /**
      * The IP network address of the computer on the other side of the socket.
      */
-    protected String         IP;
+    protected String IP;
     /**
      * The operator that uses this socket for communication, and for which this
      * socket exists.
      */
-    protected Operator       operator;
+    protected Operator operator;
     /**
      * The name of the OEG team that is using this socket. Used to identify the
      * socket to humans.
      */
-    protected String         name;
+    protected String name;
     /**
      * Probably completely unnecessary. This is a reference to the child of this
      * messages object, either ServerMessages or ClientMessages. I believe this
      * could be structured more properly and is unneeded.
      */
-    private Messages         child;
+    private Messages child;
     /**
      * Map of message Prefixes (or, the type of a message) from the String
      * representation to its Enumerated Prefix type.
      */
-    Map<String, Prefix>      prefixMap;
+    Map<String, Prefix> prefixMap;
 
     /**
      * An enumerated list of every type of message that is sent in OEG. Every
@@ -80,8 +80,8 @@ public class Messages extends Thread {
      * @param sock
      *            The socket that this object is wrapping.
      */
-    public Messages(Socket sock) {
-        initializeSocket(sock);
+    public Messages(Socket socketIn) {
+        initializeSocket(socketIn);
         createPrefixMap();
     }
 
@@ -95,15 +95,16 @@ public class Messages extends Thread {
     private void initializeSocket(Socket sock) {
         try {
             // setup input from server
-            sockIn = new BufferedReader(
-                    new InputStreamReader(sock.getInputStream()));
+            socketIn = new BufferedReader(
+                            new InputStreamReader(sock.getInputStream()));
 
             // setup output to server
-            sockOut = new PrintWriter(sock.getOutputStream(), true);
+            socketOut = new PrintWriter(sock.getOutputStream(), true);
             IP = sock.getInetAddress().getHostAddress();
 
             this.name = "none";
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -143,27 +144,30 @@ public class Messages extends Thread {
         try {
             while (more) {
                 // wait for next line from server
-                str = sockIn.readLine();
+                str = socketIn.readLine();
                 if (str != null) {
                     // parse server message
                     parse(str);
-                } else
+                }
+                else
                     more = false;
             }
             close();
-        } catch (IOException ioe) {
+        }
+        catch (IOException ioe) {
             // if the connection has been closed, handle it properly.
             if (ioe.getMessage().equals("Connection reset")) {
                 // print message to console
-                System.out.println(
-                        "Client " + name + " at " + IP + " disconnected.");
+                System.out.println("Client " + name + " at " + IP
+                                + " disconnected.");
 
                 if (operator instanceof ServerOperator) {
                     // create a logout event for logging
                     Event logout = new Event(operator);
                     logout.setEventLogout();
                     ((ServerOperator) operator).addHistory(logout);
-                } else {
+                }
+                else {
                     // close the socket cleanly, if possible.
                     // java.lang.ClassCastException: server.ServerMessages
                     // cannot be cast to client.ClientMessages
@@ -171,7 +175,8 @@ public class Messages extends Thread {
                     child.close();
                 }
                 // if some other exception, just dump the stack
-            } else {
+            }
+            else {
                 ioe.printStackTrace();
                 System.out.println("Exception: " + ioe);
             }
@@ -217,17 +222,19 @@ public class Messages extends Thread {
                 // not be the most proper way to do things.
                 if (child instanceof ServerMessages)
                     ((ServerMessages) child).parse(message,
-                            prefixMap.get(prefix));
+                                    prefixMap.get(prefix));
                 else
                     ((ClientMessages) child).parse(message,
-                            prefixMap.get(prefix));
+                                    prefixMap.get(prefix));
 
                 // if the prefix is not valid
-            } else {
+            }
+            else {
                 System.out.println("Unknown message: " + in);
             }
             // if no colon exists
-        } else {
+        }
+        else {
             if (in.length() > 1)
                 System.out.println("Messages Unknown message: " + in);
         }
@@ -256,10 +263,11 @@ public class Messages extends Thread {
      */
     public void sendMessage(Prefix p, String message) {
         System.out.println("OUT: " + p.name() + ":" + message);
-        if (sockOut != null) {
-            sockOut.println(p.name() + ":" + message);
-            sockOut.flush();
-        } else
+        if (socketOut != null) {
+            socketOut.println(p.name() + ":" + message);
+            socketOut.flush();
+        }
+        else
             System.out.println("sockOut is NULL for " + operator.getName());
     }
 
@@ -280,11 +288,12 @@ public class Messages extends Thread {
              * if socket still exists, close the read, write wrappers and the
              * socket itself.
              */
-            if (sock != null) {
-                sock.shutdownInput();
-                sock.shutdownOutput();
+            if (messageSocket != null) {
+                messageSocket.shutdownInput();
+                messageSocket.shutdownOutput();
             }
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             e.printStackTrace();
             return false;
         }
