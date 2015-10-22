@@ -309,14 +309,14 @@ public class Requests extends JFrame {
                         ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         setScrollWheel(false);
 
-        JPanel panel_2 = new JPanel();
-        mapScrollPane.add(panel_2);
-        panel_2.setLayout(null);
+        JPanel internalPanel = new JPanel();
+        mapScrollPane.add(internalPanel);
+        internalPanel.setLayout(null);
 
-        mapScrollPane.setColumnHeaderView(panel_2);
+        mapScrollPane.setColumnHeaderView(internalPanel);
         JLayeredPane layeredPane = new JLayeredPane();
         layeredPane.setBounds(232, 19, 1, 1);
-        panel_2.add(layeredPane);
+        internalPanel.add(layeredPane);
 
         /*
          * mapPane = new JPanel(); mapPane.setBounds(10, 31, 500, 500);
@@ -699,8 +699,8 @@ public class Requests extends JFrame {
         GridBagLayout gbl_cellInfoPanel = new GridBagLayout();
         gbl_cellInfoPanel.columnWidths = new int[] { 7, 2, 244, 1, 0 };
         gbl_cellInfoPanel.rowHeights = new int[] { 65, 25, 25, 25, 25, 20, 0 };
-        gbl_cellInfoPanel.columnWeights =
-                        new double[] { 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE };
+        gbl_cellInfoPanel.columnWeights = new double[] { 0.0, 1.0, 0.0, 0.0,
+                        Double.MIN_VALUE };
         gbl_cellInfoPanel.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0,
                         0.0, Double.MIN_VALUE };
         cellInfoPanel.setLayout(gbl_cellInfoPanel);
@@ -1026,7 +1026,7 @@ public class Requests extends JFrame {
     public void constructMap(Point p) {
         map = new Map(this, p);
         mapScrollPane.setViewportView(map);
-        /* mapPane.add(map); */
+        /* mapPane.add(map); */ // WHY IS THIS IS COMMENTED OUT?
 
         SLButton.doClick();
         map.toggleRocks();

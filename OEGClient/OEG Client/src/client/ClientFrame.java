@@ -102,8 +102,8 @@ public class ClientFrame implements ActionListener {
             panel.add(label);
             panel.add(pass);
             pass.requestFocus();
-            ScheduledExecutorService scheduler =
-                            Executors.newSingleThreadScheduledExecutor();
+            ScheduledExecutorService scheduler = Executors
+                            .newSingleThreadScheduledExecutor();
 
             scheduler.schedule(new Runnable() {
                 public void run() {
@@ -142,6 +142,7 @@ public class ClientFrame implements ActionListener {
                 operator = new ClientOperator(this, team, serverSocket);
                 GUI.setOperator(operator);
                 serverSocket.sendLogin(register, team, password);
+                System.out.println("*****Connected to " + ip);
             }
             else {
                 JOptionPane.showMessageDialog(login,
@@ -187,6 +188,7 @@ public class ClientFrame implements ActionListener {
     /** ActionPerform handler called when the second timer hits zero */
     public void actionPerformed(ActionEvent e) {
         updateDisplay();
+        System.out.println("*****Frame Updating");
     }
 
     /**
