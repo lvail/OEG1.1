@@ -56,39 +56,39 @@ import shared.action.Action;
  * @author jweber2, ndickrel
  */
 public class Manage {
-    /** The frame that contaisn everything */
-    private JFrame           frame;
+    /** The frame that contains everything */
+    private JFrame frame;
     /** List model to display the list of operators in the game */
     private DefaultListModel operatorModel;
     /** List view to display the operators in operatorModel */
-    private JList            operatorList;
+    private JList operatorList;
     /** List view to display the actions for the selected operator */
-    private JList            actionQueueList;
+    private JList actionQueueList;
     /** List view to display the history of the selected operator */
-    private JList            historyList;
+    private JList historyList;
     /** The text field to hold the IP address of the server */
-    private JTextField       IPTextField;
+    private JTextField IPTextField;
     /** The label to display the current round number */
-    private JLabel           roundLabel;
+    private JLabel roundLabel;
     /** The label to display the current status of the game/server */
-    private JLabel           statusLabel;
+    private JLabel statusLabel;
     /** The label to display the current balance for the selected op */
-    private JLabel           bankLabel;
+    private JLabel bankLabel;
     /** The label to display the current income for the selected op */
-    private JLabel           incomeLabel;
+    private JLabel incomeLabel;
     /** The label to display the remaining time in the current round */
-    private JLabel           timerLabel;
+    private JLabel timerLabel;
 
     /** The Director that has the Manage - this is a circular reference!! */
-    Director             director;
-    /** How many milliseconds remain in the UI countdown. */
-    private long         remaining;
+    Director director;
+    /** How many milliseconds remain in the UI count down. */
+    private long remaining;
     /** The current round number */
-    private int          curRound;
+    private int curRound;
     /** When countdown was last updated */
-    private long         lastUpdate;
-    /** The timer object to handle the countdown UI. */
-    private RoundTimer   roundTimer;
+    private long lastUpdate;
+    /** The timer object to handle the count down UI. */
+    private RoundTimer roundTimer;
     /** Format that the timer field is set to use */
     private NumberFormat format;
 
@@ -98,17 +98,18 @@ public class Manage {
      * @param IP
      *            The IP address of the local computer.
      */
-    public Manage(String IP, Director director) {
+    public Manage(String IP, Director directorIn) {
         // this.manage = this;
-        this.director = director;
+        director = directorIn;
         initialize();
+        // Timer
         format = NumberFormat.getNumberInstance();
         format.setMinimumIntegerDigits(2); // pad with 0 if necessary
         lastUpdate = System.currentTimeMillis();
-
+        // setting the text for the IP
         IPTextField.setText(IP);
         statusLabel.setText("Not Running");
-
+        // new timer started
         roundTimer = new RoundTimer();
         roundTimer.resume();
 
@@ -128,19 +129,21 @@ public class Manage {
 
     /** Initialize all the contents of the frame with swing objects. */
     private void initialize() {
+        // creates new jframe
         final JFrame frmOegDirector = frame = new JFrame();
         frmOegDirector.setTitle("Oil Director");
         frmOegDirector.setBounds(100, 100, 700, 550);
         frmOegDirector.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         GridBagLayout gridBagLayout = new GridBagLayout();
         gridBagLayout.columnWidths = new int[] { 3, 55, 13, 73, 14, 50, -46, 76,
-                60, 0, 54, 0, 0, 0 };
-        gridBagLayout.rowHeights =
-                new int[] { 37, 28, 109, 33, 25, 0, 22, 160, 0, 0 };
+                        60, 0, 54, 0, 0, 0 };
+        gridBagLayout.rowHeights = new int[] { 37, 28, 109, 33, 25, 0, 22, 160,
+                        0, 0 };
         gridBagLayout.columnWeights = new double[] { 0.0, 1.0, 0.0, 1.0, 1.0,
-                0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
+                        0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0,
+                        Double.MIN_VALUE };
         gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 1.0,
-                0.0, 1.0, 0.0, Double.MIN_VALUE };
+                        0.0, 1.0, 0.0, Double.MIN_VALUE };
         frmOegDirector.getContentPane().setLayout(gridBagLayout);
         // Timer Label
         JLabel lblTimer = new JLabel("Timer:");
@@ -200,7 +203,7 @@ public class Manage {
         gbc_operatorScrollPane.gridx = 1;
         gbc_operatorScrollPane.gridy = 2;
         frmOegDirector.getContentPane().add(operatorScrollPane,
-                gbc_operatorScrollPane);
+                        gbc_operatorScrollPane);
 
         operatorModel = new DefaultListModel();
         operatorList = new JList(operatorModel);
@@ -209,8 +212,8 @@ public class Manage {
             public void mouseClicked(MouseEvent arg0) {
                 Manage.this.refreshInfo();
                 if (SwingUtilities.isRightMouseButton(arg0)) {
-                    final ServerOperator operator =
-                            (ServerOperator) operatorList.getSelectedValue();
+                    final ServerOperator operator = (ServerOperator) operatorList
+                                    .getSelectedValue();
                     JPopupMenu menu = new JPopupMenu();
                     // View Password
                     JMenuItem pass = new JMenuItem("Copy password");
@@ -218,10 +221,10 @@ public class Manage {
                     pass.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent event) {
-                            StringSelection selection =
-                                    new StringSelection(operator.password);
+                            StringSelection selection = new StringSelection(
+                                            operator.password);
                             Clipboard clipboard = Toolkit.getDefaultToolkit()
-                                    .getSystemClipboard();
+                                            .getSystemClipboard();
                             clipboard.setContents(selection, selection);
                         }
                     });
@@ -232,9 +235,9 @@ public class Manage {
                         @Override
                         public void actionPerformed(ActionEvent event) {
                             String message = JOptionPane.showInputDialog(frame,
-                                    "Enter message:",
-                                    "Message " + operator.getName(),
-                                    JOptionPane.PLAIN_MESSAGE);
+                                            "Enter message:",
+                                            "Message " + operator.getName(),
+                                            JOptionPane.PLAIN_MESSAGE);
                             operator.sendInfo(message);
                         }
                     });
@@ -245,14 +248,16 @@ public class Manage {
                         @Override
                         public void actionPerformed(ActionEvent event) {
                             String message = JOptionPane.showInputDialog(frame,
-                                    "Changes will reflect at the beginning of the next round.\n"
-                                            + "Enter New Password:",
-                                    "Change Password for " /*
-                                                            * +
-                                                            * operator.getName()
-                                                            */,
-                                    JOptionPane.PLAIN_MESSAGE);
-                            if (message != null) operator.password = message;
+                                            "Changes will reflect at the beginning of the next round.\n"
+                                                            + "Enter New Password:",
+                                            "Change Password for " /*
+                                                                    * +
+                                                                    * operator.
+                                                                    * getName()
+                                                                    */,
+                                            JOptionPane.PLAIN_MESSAGE);
+                            if (message != null)
+                                operator.password = message;
                         }
                     });
                     menu.add(changePassword);
@@ -263,20 +268,20 @@ public class Manage {
                         @Override
                         public void actionPerformed(ActionEvent event) {
                             String message = JOptionPane.showInputDialog(frame,
-                                    "Changes will reflect at the beginning of the next round.\n"
-                                            + "Enter Amount to add:",
-                                    "Add to " + operator.getName()
-                                            + "'s Balance",
-                                    JOptionPane.PLAIN_MESSAGE);
+                                            "Changes will reflect at the beginning of the next round.\n"
+                                                            + "Enter Amount to add:",
+                                            "Add to " + operator.getName()
+                                                            + "'s Balance",
+                                            JOptionPane.PLAIN_MESSAGE);
                             int changeBy = Integer.parseInt(message);
                             String operatorAlert = String.format(
-                                    "The Bank has decided to %s $%d.00 to your account."
-                                            + "The changes will reflect on the next round.",
-                                    (changeBy > 0 ? "credit" : "bill"),
-                                    changeBy);
+                                            "The Bank has decided to %s $%d.00 to your account."
+                                                            + "The changes will reflect on the next round.",
+                                            (changeBy > 0 ? "credit" : "bill"),
+                                            changeBy);
                             operator.sendInfo(operatorAlert);
                             operator.setBalance(
-                                    operator.getBalance() + changeBy);
+                                            operator.getBalance() + changeBy);
                         }
                     });
                     menu.add(changeBank);
@@ -286,7 +291,7 @@ public class Manage {
                         @Override
                         public void actionPerformed(ActionEvent event) {
                             operator.sendWarning(
-                                    "You have been deleted by the director.");
+                                            "You have been deleted by the director.");
                             operator.closeSocket();
                             operatorModel.removeElement(operator);
                         }
@@ -298,7 +303,7 @@ public class Manage {
             }
         });
         operatorScrollPane.setViewportView(operatorList);
-
+        // history log of game
         Label historyLabel = new Label("History");
         historyLabel.setFont(new Font("Dialog", Font.BOLD, 20));
         historyLabel.setAlignment(Label.CENTER);
@@ -459,12 +464,14 @@ public class Manage {
             public void actionPerformed(ActionEvent arg0) {
                 File file = new File(".");
                 File tmp = new File(file, "trunk");
-                if (tmp.isDirectory()) file = tmp;
+                if (tmp.isDirectory())
+                    file = tmp;
                 tmp = new File(tmp, "datafiles");
-                if (tmp.isDirectory()) file = tmp;
+                if (tmp.isDirectory())
+                    file = tmp;
                 JFileChooser chooser = new JFileChooser(file);
-                FileFilter xmlFilter =
-                        new FileNameExtensionFilter("XML File (.xml)", "xml");
+                FileFilter xmlFilter = new FileNameExtensionFilter(
+                                "XML File (.xml)", "xml");
                 chooser.addChoosableFileFilter(xmlFilter);
                 chooser.setAcceptAllFileFilterUsed(false);
                 chooser.setFileFilter(xmlFilter);
@@ -472,21 +479,23 @@ public class Manage {
 
                 if (returnVal == JFileChooser.APPROVE_OPTION) {
                     File selectedFile = chooser.getSelectedFile();
-                    // This is where a real application would open the file.
+                    // This is where a real application would open the
+                    // file.//HELP
                     Server server = new Server(Manage.this, selectedFile);
                     server.start();
                     mntmLoadXMLFile.setEnabled(false);
-                } else {
-
                 }
+                /*
+                 * else { }
+                 */
 
             }
         });
         mnRndCtrl.add(mntmLoadXMLFile);
         frmOegDirector.setVisible(true);
         // Control -- Registration Enabled [Checkbox]
-        final JCheckBoxMenuItem mntmRegEnabled =
-                new JCheckBoxMenuItem("Enable Registration");
+        final JCheckBoxMenuItem mntmRegEnabled = new JCheckBoxMenuItem(
+                        "Enable Registration");
         mntmRegEnabled.setSelected(true);
         ;
         mntmRegEnabled.addActionListener(new ActionListener() {
@@ -501,14 +510,15 @@ public class Manage {
         mntmMessageAll.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String message =
-                        JOptionPane.showInputDialog(null, "Enter message:",
-                                "Message All Teams", JOptionPane.PLAIN_MESSAGE);
+                String message = JOptionPane.showInputDialog(null,
+                                "Enter message:", "Message All Teams",
+                                JOptionPane.PLAIN_MESSAGE);
                 for (Object operator : operatorModel.toArray()) {
-                    if (operator == null) continue;
+                    if (operator == null)
+                        continue;
                     ServerOperator selected = (ServerOperator) operator;
                     System.out.printf("Sending message %s to %s\n", message,
-                            selected.getName());
+                                    selected.getName());
                     selected.sendInfo(message);
                 }
             }
@@ -520,16 +530,18 @@ public class Manage {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String message = JOptionPane.showInputDialog(frame,
-                        "Changes will reflect at the beginning of the next round.\n"
-                                + "Enter Amount to add:",
-                        "Add to every Team's Bank", JOptionPane.PLAIN_MESSAGE);
+                                "Changes will reflect at the beginning of the next round.\n"
+                                                + "Enter Amount to add:",
+                                "Add to every Team's Bank",
+                                JOptionPane.PLAIN_MESSAGE);
                 for (Object operator : operatorModel.toArray()) {
                     ServerOperator selected = (ServerOperator) operator;
                     int changeBy = Integer.parseInt(message);
                     String operatorAlert = String.format(
-                            "The Bank has decided to %s $%d.00 to your account."
-                                    + "The changes will reflect on the next round.",
-                            (changeBy > 0 ? "credit" : "bill"), changeBy);
+                                    "The Bank has decided to %s $%d.00 to your account."
+                                                    + "The changes will reflect on the next round.",
+                                    (changeBy > 0 ? "credit" : "bill"),
+                                    changeBy);
                     selected.sendInfo(operatorAlert);
                     selected.setBalance(selected.getBalance() + changeBy);
                 }
@@ -543,9 +555,10 @@ public class Manage {
             public void actionPerformed(ActionEvent e) {
                 // director.unscheduledEndRound();
                 long length = Long.parseLong(JOptionPane.showInputDialog(null,
-                        "This will end the current round!\n"
-                                + "Enter new Round Time in minutes:",
-                        "Change Round Time", JOptionPane.PLAIN_MESSAGE));
+                                "This will end the current round!\n"
+                                                + "Enter new Round Time in minutes:",
+                                "Change Round Time",
+                                JOptionPane.PLAIN_MESSAGE));
                 director.changeRoundLength(length * 60000l);
             }
         });
@@ -577,8 +590,8 @@ public class Manage {
             @Override
             public void actionPerformed(ActionEvent arg0) {
                 int index = operatorList.getSelectedIndex();
-                ServerOperator selected =
-                        (ServerOperator) operatorModel.get(index);
+                ServerOperator selected = (ServerOperator) operatorModel
+                                .get(index);
                 copyActionList(selected);
             }
         });
@@ -589,8 +602,8 @@ public class Manage {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int index = operatorList.getSelectedIndex();
-                ServerOperator selected =
-                        (ServerOperator) operatorModel.get(index);
+                ServerOperator selected = (ServerOperator) operatorModel
+                                .get(index);
                 copyHistoryList(selected);
             }
         });
@@ -778,11 +791,11 @@ public class Manage {
 
     /** Manages the UI round timer by updating it every second. */
     class RoundTimer implements ActionListener {
-        /** Timer to update the countdown every second */
+        /** Timer to update the count down every second */
         private Timer timer;
 
         /** Starts the next 1 second timer */
-                void resume() {
+        void resume() {
             // Restore the time we're counting down from and restart the timer.
             timer = new Timer(1000, roundTimer);
             timer.setInitialDelay(0); // First timer is immediate.
@@ -824,13 +837,15 @@ public class Manage {
             String days = "";
             if (hours >= 24) {
                 days = (hours / 24)
-                        + ((hours / 24 == 1) ? " Day, " : " Days - ");
+                                + ((hours / 24 == 1) ? " Day, " : " Days - ");
                 hours = hours % 24;
             }
-            setTimer(curRound, director.getNumRounds(),
-                    days + ((hours >= 1) ? (format.format(hours) + ":") : "")
-                            + format.format(minutes) + ":"
-                            + format.format(seconds));
+            setTimer(curRound,
+                            director.getNumRounds(), days
+                                            + ((hours >= 1) ? (format.format(
+                                                            hours) + ":") : "")
+                                            + format.format(minutes) + ":"
+                                            + format.format(seconds));
         }
 
     }
@@ -865,7 +880,7 @@ public class Manage {
          */
         @Override
         public Component getListCellRendererComponent(JList list, Object value,
-                int index, boolean isSelected, boolean cellHasFocus) {
+                        int index, boolean isSelected, boolean cellHasFocus) {
 
             setText(value.toString());
 

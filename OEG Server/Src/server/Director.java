@@ -1,7 +1,5 @@
 package server;
 
-// This is my comment to prove git workes.
-
 import java.awt.Point;
 import java.io.File;
 import java.io.IOException;
@@ -68,16 +66,16 @@ public class Director {
      * Constructor stores the UI object, and handles parsing of the XML game
      * input file.
      * 
-     * @param manage
+     * @param manageIn
      *            The GUI that the user of the server interacts with to view
      *            game information.
      * @param xmlFile
      *            The XML file that is used to fill all OEG game parameters.
      */
-    public Director(Manage manage, File xmlFile) {
+    public Director(Manage manageIn, File xmlFile) {
         operators = new ServerOperator[150];
 
-        this.manage = manage;
+        manage = manageIn;
 
         // load data from XML.
         grid = loadData(xmlFile);
@@ -110,8 +108,8 @@ public class Director {
 
             // get the handler that will process the XML file and place results
             // in newGrid.
-            ParseSimulationXML handler =
-                            new ParseSimulationXML(xmlFile, newGrid);
+            ParseSimulationXML handler = new ParseSimulationXML(xmlFile,
+                            newGrid);
 
             // if not in test mode, use the parameter file and parse.
             if (!Messages.TESTMODE)
@@ -176,8 +174,8 @@ public class Director {
                 return;
             }
             // create a new Operator with team name and socket
-            addOp = operators[numOperators] =
-                            new ServerOperator(this, name, password, client);
+            addOp = operators[numOperators] = new ServerOperator(this, name,
+                            password, client);
 
             // send the operator current game information
             sendGameInfo(client);

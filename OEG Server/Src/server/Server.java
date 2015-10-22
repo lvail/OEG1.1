@@ -28,7 +28,7 @@ public class Server extends Thread {
     public static void main(String[] args) {
 
         EventQueue.invokeLater(new Runnable() {
-            @Override
+            //@Override//not sure why this is hear possible removal later
             public void run() {
                 try {
                     String ip = InetAddress.getLocalHost().getHostAddress();
@@ -79,14 +79,14 @@ public class Server extends Thread {
             InetAddress remoteIP;
 
             // start the server (open a port)
-            ServerSocket oEGseverSocket = new ServerSocket(8121);
+            ServerSocket oegServerSocket = new ServerSocket(8121);
 
             // print the IP address to the console
-            System.out.println("Server IP address: " + oEGseverSocket.getInetAddress());
+            System.out.println("Server IP address: " + oegServerSocket.getInetAddress());
 
             while (true) {
                 // wait for a client connection and returns a socket
-                sock = oEGseverSocket.accept();
+                sock = oegServerSocket.accept();
                 // hold his IP
                 remoteIP = sock.getInetAddress();
 

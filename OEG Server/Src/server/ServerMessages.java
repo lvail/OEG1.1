@@ -21,11 +21,11 @@ public class ServerMessages extends Messages {
      * @param inDirector
      *            Director that incoming messages from the client will be sent
      *            to.
-     * @param sock
+     * @param socketIn
      *            Socket where messages are passed.
      */
-    public ServerMessages(Director inDirector, Socket sock) {
-        super(sock);
+    public ServerMessages(Director inDirector, Socket socketIn) {
+        super(socketIn);
         super.addChild(this);
         this.director = inDirector;
 
@@ -57,7 +57,7 @@ public class ServerMessages extends Messages {
                 // added to Director.
                 String[] parts = in.split(",");
                 director.newClient(this, pr == Prefix.REGISTER, parts[0],
-                        parts[1]);
+                                parts[1]);
                 this.name = parts[0];
                 break;
             case TEST:
@@ -143,9 +143,9 @@ public class ServerMessages extends Messages {
      *            The current round number.
      */
     public void startTimer(long milliseconds, long roundLength, int roundNum,
-            int numRounds) {
+                    int numRounds) {
         sendMessage(Prefix.STARTTIME, milliseconds + "#" + roundLength + "#"
-                + roundNum + "#" + numRounds);
+                        + roundNum + "#" + numRounds);
     }
 
     /**
@@ -163,7 +163,7 @@ public class ServerMessages extends Messages {
      * Signal the end of the current round(For Manage)
      * 
      * @param message
-     *            Mesage to be sent
+     *            Message to be sent
      */
     public void endRound(String message) {
         sendMessage(Prefix.ENDROUND, message);
@@ -210,7 +210,7 @@ public class ServerMessages extends Messages {
      *            Depth of cells.
      */
     public void sendGridLimits(int xLimit, int yLimit, int numLayers,
-            int[] layers) {
+                    int[] layers) {
         String msg = xLimit + "#" + yLimit + "#" + numLayers + "#";
         for (int i = 0; i < layers.length; i++)
             msg += layers[i] + "#";

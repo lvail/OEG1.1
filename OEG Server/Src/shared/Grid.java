@@ -9,10 +9,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Random;
+import au.com.bytecode.opencsv.*;
 
 import org.xml.sax.SAXException;
 
-import au.com.bytecode.opencsv.CSVReader;
 import shared.action.Bid;
 
 /**
