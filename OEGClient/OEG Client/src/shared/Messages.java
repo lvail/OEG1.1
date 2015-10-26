@@ -148,6 +148,7 @@ public class Messages extends Thread {
                 if (str != null) {
                     // parse server message
                     parse(str);
+
                 }
                 else
                     more = false;

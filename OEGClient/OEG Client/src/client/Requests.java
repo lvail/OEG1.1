@@ -53,6 +53,9 @@ import shared.action.Action;
 // TODO Make Cell info fields scrollable?
 @SuppressWarnings("serial")
 public class Requests extends JFrame {
+    final int SHELLHEIGHT = 500;
+    final int SHELLWIDTH = 800;
+    Font standardBoldFont = new Font("Tahoma", Font.BOLD, 15);
     private JTextField x2Field, y2Field, x1Field, y1Field;
     private IntTextField bidField;
     private JLabel roundField, totalRoundField, timerField, hBankField,
@@ -105,7 +108,7 @@ public class Requests extends JFrame {
         this.clientFrame = new ClientFrame(this);
         JFrame clientGui = new JFrame("OEG");
         clientGui.setBackground(Color.WHITE);
-        clientGui.getContentPane().setLayout(null);
+        clientGui.getContentPane().setLayout(null);// *
 
         mainPanel = new JPanel();
         mainPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
@@ -131,8 +134,9 @@ public class Requests extends JFrame {
 
         SLButton.setSelected(true);// radio Button- actions a player can take
 
-        clientGui.setSize(500, 500); //
+        clientGui.setSize(SHELLWIDTH, SHELLHEIGHT); //
         clientGui.setVisible(true); //
+        repaint();
     }
 
     /**
@@ -162,12 +166,12 @@ public class Requests extends JFrame {
         JLabel hTeamLabel = new JLabel("Team:");
         teamPanel.add(hTeamLabel);
         hTeamLabel.setBorder(null);
-        hTeamLabel.setFont(new Font("Tahoma", Font.BOLD, 15));
+        hTeamLabel.setFont(standardBoldFont);
         hTeamLabel.setForeground(Color.BLACK);
 
         hTeamField = new JLabel();
         teamPanel.add(hTeamField);
-        hTeamField.setFont(new Font("Tahoma", Font.BOLD, 15));
+        hTeamField.setFont(standardBoldFont);
         hTeamField.setBorder(null);
         hTeamField.setBackground(SystemColor.menu);
         hTeamField.setForeground(Color.BLACK);
@@ -181,14 +185,14 @@ public class Requests extends JFrame {
         JLabel hBankLabel = new JLabel("Bank: ");
         bankPanel.add(hBankLabel);
         hBankLabel.setBorder(null);
-        hBankLabel.setFont(new Font("Tahoma", Font.BOLD, 15));
+        hBankLabel.setFont(standardBoldFont);
         hBankLabel.setForeground(Color.BLACK);
 
         hBankField = new JLabel();
         bankPanel.add(hBankField);
         hBankField.setHorizontalAlignment(SwingConstants.RIGHT);
         hBankField.setAlignmentX(Component.CENTER_ALIGNMENT);
-        hBankField.setFont(new Font("Tahoma", Font.BOLD, 15));
+        hBankField.setFont(standardBoldFont);
         hBankField.setBorder(null);
         hBankField.setForeground(Color.BLACK);
         hBankField.setBackground(SystemColor.menu);
@@ -217,24 +221,24 @@ public class Requests extends JFrame {
         JLabel midLabel = new JLabel(" of ");
         roundPanel.add(roundLabel);
         roundLabel.setForeground(Color.BLACK);
-        roundLabel.setFont(new Font("Tahoma", Font.BOLD, 15));
+        roundLabel.setFont(standardBoldFont);
 
         roundField = new JLabel();
         roundPanel.add(roundField);
         roundField.setForeground(Color.BLACK);
         roundField.setBorder(null);
-        roundField.setFont(new Font("Tahoma", Font.BOLD, 15));
+        roundField.setFont(standardBoldFont);
         roundField.setBackground(SystemColor.menu);
         roundField.setText(""); // change "" to Operator.getRound
 
         totalRoundField = new JLabel();
         roundPanel.add(midLabel);
         midLabel.setForeground(Color.BLACK);
-        midLabel.setFont(new Font("Tahoma", Font.BOLD, 15));
+        midLabel.setFont(standardBoldFont);
         roundPanel.add(totalRoundField);
         totalRoundField.setForeground(Color.BLACK);
         totalRoundField.setBorder(null);
-        totalRoundField.setFont(new Font("Tahoma", Font.BOLD, 15));
+        totalRoundField.setFont(standardBoldFont);
         totalRoundField.setBackground(SystemColor.menu);
         totalRoundField.setText("");
 
@@ -245,14 +249,14 @@ public class Requests extends JFrame {
         JLabel timerLabel = new JLabel("Timer:");
         timerPanel.add(timerLabel);
         timerLabel.setForeground(Color.BLACK);
-        timerLabel.setFont(new Font("Tahoma", Font.BOLD, 15));
+        timerLabel.setFont(standardBoldFont);
 
         timerField = new JLabel();
         timerPanel.add(timerField);
         timerField.setHorizontalAlignment(SwingConstants.RIGHT);
         timerField.setForeground(SystemColor.desktop);
         timerField.setBorder(null);
-        timerField.setFont(new Font("Tahoma", Font.BOLD, 15));
+        timerField.setFont(standardBoldFont);
         timerField.setBackground(SystemColor.menu);
         timerField.setText(""); // change "" to Operator.getTime
         listModel = new DefaultListModel();
@@ -699,8 +703,8 @@ public class Requests extends JFrame {
         GridBagLayout gbl_cellInfoPanel = new GridBagLayout();
         gbl_cellInfoPanel.columnWidths = new int[] { 7, 2, 244, 1, 0 };
         gbl_cellInfoPanel.rowHeights = new int[] { 65, 25, 25, 25, 25, 20, 0 };
-        gbl_cellInfoPanel.columnWeights = new double[] { 0.0, 1.0, 0.0, 0.0,
-                        Double.MIN_VALUE };
+        gbl_cellInfoPanel.columnWeights =
+                        new double[] { 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE };
         gbl_cellInfoPanel.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0,
                         0.0, Double.MIN_VALUE };
         cellInfoPanel.setLayout(gbl_cellInfoPanel);
@@ -1025,6 +1029,7 @@ public class Requests extends JFrame {
      */
     public void constructMap(Point p) {
         map = new Map(this, p);
+        System.out.println("Plz work");
         mapScrollPane.setViewportView(map);
         /* mapPane.add(map); */ // WHY IS THIS IS COMMENTED OUT?
 
@@ -1054,6 +1059,7 @@ public class Requests extends JFrame {
      * Info box using the last known selected coordinates.
      */
     public void refreshGUI() {
+        System.out.println("Repaint");
         map.repaint();
         map.setCellInfo(map.lastX, map.lastY);
 

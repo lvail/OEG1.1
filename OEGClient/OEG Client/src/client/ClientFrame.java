@@ -102,8 +102,8 @@ public class ClientFrame implements ActionListener {
             panel.add(label);
             panel.add(pass);
             pass.requestFocus();
-            ScheduledExecutorService scheduler = Executors
-                            .newSingleThreadScheduledExecutor();
+            ScheduledExecutorService scheduler =
+                            Executors.newSingleThreadScheduledExecutor();
 
             scheduler.schedule(new Runnable() {
                 public void run() {
@@ -231,8 +231,8 @@ public class ClientFrame implements ActionListener {
         else
             GUI.flashTimer(2);
         // If we've completed the countdown beep and display new page
-
         GUI.setBank(operator.getBank().getAdjustedBalance());
+        System.out.println("Bank updat  " + minutes);
     }
 
     /**
