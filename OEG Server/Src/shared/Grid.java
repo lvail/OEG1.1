@@ -9,10 +9,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Random;
-import au.com.bytecode.opencsv.*;
 
 import org.xml.sax.SAXException;
 
+import au.com.bytecode.opencsv.CSVReader;
 import shared.action.Bid;
 
 /**
@@ -27,21 +27,21 @@ import shared.action.Bid;
  */
 public class Grid {
     /** amount of layers */
-    int   numLayers;
+    int numLayers;
     /** dimensions of the grid */
     Point maxP;
 
     private Cell grid[][];
 
-    public static final int  LAYER            = 0;
-    public static final int  OIL              = 1;
-    public static final int  GAS              = 2;
-    public static final int  ROCK             = 3;
-    private static int       fudgeValue       = 10;
-    private static int       gridSize;
-    private static double    removePercentage = 70;
+    public static final int LAYER = 0;
+    public static final int OIL = 1;
+    public static final int GAS = 2;
+    public static final int ROCK = 3;
+    private static int fudgeValue = 10;
+    private static int gridSize;
+    private static double removePercentage = 70;
     private LithologicType[] layers;
-    private int              surfaceDepth;
+    private int surfaceDepth;
 
     /**
      * This constructor initializes and instantiates all of the cell objects
@@ -148,11 +148,12 @@ public class Grid {
 
             parseCSV(reader, type, level);
 
-        } catch (FileNotFoundException e) {
+        }
+        catch (FileNotFoundException e) {
             // e.printStackTrace();
             System.out.println("The selected file " + file + " was not found.");
-            throw new SAXException(
-                    "The selected CSV file " + file + " was not found.");
+            throw new SAXException("The selected CSV file " + file
+                            + " was not found.");
         }
     }
 
@@ -178,10 +179,11 @@ public class Grid {
                             if (value.equals("")) {
                                 grid[i][j].layers[level] = null;
                                 grid[i][j].layerExists[level] = false;
-                            } else {
+                            }
+                            else {
                                 if (!value.equals(""))
                                     grid[i][j].layers[level] =
-                                            Integer.parseInt(value);
+                                                    Integer.parseInt(value);
                                 else
                                     grid[i][j].layers[level] = null;
                             }
@@ -193,8 +195,8 @@ public class Grid {
                             grid[i][j].gas[level] = Integer.parseInt(value);
                             break;
                         case ROCK:
-                            grid[i][j].rocktype[level] =
-                                    new LithologicType(Integer.parseInt(value));
+                            grid[i][j].rocktype[level] = new LithologicType(
+                                            Integer.parseInt(value));
                             break;
                         default:
                             System.out.println("WE HAZ TEH ERROZ?");
@@ -202,7 +204,8 @@ public class Grid {
                 }
                 i++;
             }
-        } catch (IOException ioe) {
+        }
+        catch (IOException ioe) {
             ioe.printStackTrace();
         }
     }
@@ -228,13 +231,15 @@ public class Grid {
      *            is the cell's col location
      */
     public void setOwner(String owner, Point loc) {
-        if (!exists(loc)) initializeCell(loc.x, loc.y);
+        if (!exists(loc))
+            initializeCell(loc.x, loc.y);
         grid[loc.y][loc.x].owner = owner;
         System.out.println(owner);
     }
 
     public void setLayers(Point loc, Integer[] layers) {
-        if (!exists(loc)) initializeCell(loc.x, loc.y);
+        if (!exists(loc))
+            initializeCell(loc.x, loc.y);
         grid[loc.y][loc.x].layers = layers;
     }
 
@@ -261,21 +266,23 @@ public class Grid {
     public void setLayersSocket(String in) {
         String[] split = in.split("#");
         Point p = new Point(Integer.parseInt(split[0]),
-                Integer.parseInt(split[1]));
+                        Integer.parseInt(split[1]));
         setSeismicExists(p, true);
         setLayers(p, getLayerArrayFromString(split[2]));
 
     }
 
     public void setOil(Point loc, Integer[] oil) {
-        if (!exists(loc)) initializeCell(loc.x, loc.y);
+        if (!exists(loc))
+            initializeCell(loc.x, loc.y);
         grid[loc.y][loc.x].oil = oil;
     }
 
     public void setOilSocket(String in) {
         String[] split = in.split("#");
         setOil(new Point(Integer.parseInt(split[0]),
-                Integer.parseInt(split[1])), getArrayFromString(split[2]));
+                        Integer.parseInt(split[1])),
+                        getArrayFromString(split[2]));
     }
 
     public void setGas(Point p, int gas, int depth) {
@@ -300,39 +307,44 @@ public class Grid {
 
     public void setRock(Point loc, int[] rocks) {
         LithologicType[] lithRocks =
-                new LithologicType[grid[loc.y][loc.x].layers.length];
+                        new LithologicType[grid[loc.y][loc.x].layers.length];
         for (int i = 0; i < grid[loc.y][loc.x].layers.length; i++)
             lithRocks[i] = new LithologicType(rocks[i]);
         grid[loc.y][loc.x].rocktype = lithRocks;
     }
 
     public void setGas(Point loc, Integer[] gas) {
-        if (!exists(loc)) initializeCell(loc.x, loc.y);
+        if (!exists(loc))
+            initializeCell(loc.x, loc.y);
         grid[loc.y][loc.x].gas = gas;
     }
 
     public void setGasSocket(String in) {
         String[] split = in.split("#");
         setGas(new Point(Integer.parseInt(split[0]),
-                Integer.parseInt(split[1])), getArrayFromString(split[2]));
+                        Integer.parseInt(split[1])),
+                        getArrayFromString(split[2]));
     }
 
     public void setRockSocket(String in) {
         String[] split = in.split("#");
         setRock(new Point(Integer.parseInt(split[0]),
-                Integer.parseInt(split[1])), getRockArrayFromString(split[2]));
+                        Integer.parseInt(split[1])),
+                        getRockArrayFromString(split[2]));
     }
 
     public void setDrilled(Point p, boolean in) {
-        if (!exists(p)) initializeCell(p.x, p.y);
+        if (!exists(p))
+            initializeCell(p.x, p.y);
         grid[p.y][p.x].isDrilled = in;
-        if (in) grid[p.y][p.x].seismicExists = in;
+        if (in)
+            grid[p.y][p.x].seismicExists = in;
     }
 
     public void setDrilledSocket(String in) {
         String[] split = in.split("#");
         setDrilled(new Point(Integer.parseInt(split[0]),
-                Integer.parseInt(split[1])), true);
+                        Integer.parseInt(split[1])), true);
     }
 
     /**
@@ -385,7 +397,8 @@ public class Grid {
         for (int i = 0; i < rockS.length; i++) {
             if (!rockS[i].equals("")) {
                 rock[i] = new LithologicType(Integer.parseInt(rockS[i]));
-            } else
+            }
+            else
                 rock[i] = null;
         }
         return rock;
@@ -480,7 +493,7 @@ public class Grid {
      */
     public Integer[] getLayerArray(Point p) {
         return Arrays.copyOf(grid[p.y][p.x].layers,
-                grid[p.y][p.x].layers.length);
+                        grid[p.y][p.x].layers.length);
     }
 
     /**
@@ -506,18 +519,21 @@ public class Grid {
         try {
             for (k = 0; grid[p.y][p.x].layers[k] == null; k++)
                 ;
-        } catch (Exception e) { // This will occur when the map is initialized,
-                                // because it doesn't yet have cell info.
+        }
+        catch (Exception e) { // This will occur when the map is initialized,
+                              // because it doesn't yet have cell info.
         }
         return k;
     }
 
     public void incSurfaceLayer() {
-        if (surfaceDepth < this.getNumLayers()) this.surfaceDepth++;
+        if (surfaceDepth < this.getNumLayers())
+            this.surfaceDepth++;
     }
 
     public void decSurfaceLayer() {
-        if (surfaceDepth > 0) this.surfaceDepth--;
+        if (surfaceDepth > 0)
+            this.surfaceDepth--;
     }
 
     public void goToSurface() {
@@ -597,7 +613,8 @@ public class Grid {
     }
 
     public boolean exists(Point location) {
-        if (location.y < 0 || location.x < 0) return false;
+        if (location.y < 0 || location.x < 0)
+            return false;
         return grid[location.y][location.x] != null;
     }
 
@@ -618,7 +635,8 @@ public class Grid {
     }
 
     public String getOwner(Point p) {
-        if (exists(p)) return grid[p.y][p.x].owner;
+        if (exists(p))
+            return grid[p.y][p.x].owner;
         return Bid.noOwner;
     }
 
@@ -637,7 +655,8 @@ public class Grid {
         for (int i = 0; i < maxP.y; i++) {
             for (int j = 0; j < maxP.x; j++) {
                 p = new Point(j, i);
-                if (exists(p)) toReturn[k++] = cellToSocket(p);
+                if (exists(p))
+                    toReturn[k++] = cellToSocket(p);
             }
         }
         return toReturn;
@@ -654,7 +673,8 @@ public class Grid {
         s += "#exists#" + Arrays.toString(getLayerExists(p));
         s += "#drilled#" + isDrilled(p);
         s += "#seismic#" + seismicExists(p);
-        if (isOwned(p)) s += "#owner#" + getOwner(p);
+        if (isOwned(p))
+            s += "#owner#" + getOwner(p);
 
         return s;
     }
@@ -692,6 +712,8 @@ public class Grid {
         // do not fudge the top layer
         i++;
 
+        System.out.println("This is i " + i + " this is len " + len
+                        + " line 695 of Grid.fudge");
         // for the remaining layers
         for (; i < len; i++) {
             BufferedWriter bw = null;
@@ -715,7 +737,7 @@ public class Grid {
                     // curDepth to skip layers that are taken out
                     curDepth++;
 
-                    // randomly choose to add or subtrace
+                    // randomly choose to add or subtract
                     int a = rand.nextInt(1);
 
                     // the depth of the current layer
@@ -730,8 +752,8 @@ public class Grid {
                      * depth
                      */
                     // (0.0 - 1.0) * (0.1) * (top layer + depth)
-                    double fudge =
-                            ((random * (Grid.fudgeValue / 100.0)) * depth);
+                    double fudge = ((random * (Grid.fudgeValue / 100.0))
+                                    * depth);
 
                     if (a == 0)
                         layer[curDepth] = layer[i] + (int) fudge;
@@ -739,15 +761,18 @@ public class Grid {
                         layer[curDepth] = layer[i] - (int) fudge;
 
                     int amount = Math.abs(before - layer[curDepth]);
+                    // we added this to fix a formating issue in String.format
+                    double percent = ((double) amount / (double) before);
                     String output = String.format(
-                            "fudgeValue: %d, rand: %.4f, depth: %2f, "
-                                    + "before: %d, after: %d, amount: %3d, percent: %5.3f\n",
-                            Grid.fudgeValue, random, depth, before, layer[i],
-                            amount, (amount) / before);
+                                    "fudgeValue: %d, rand: %.4f, depth: %2f, "
+                                                    + "before: %d, after: %d, amount: %3d, percent: %5.3f\n",
+                                    Grid.fudgeValue, random, depth, before,
+                                    layer[i], amount, percent);
                     bw.write(output);
                 }
                 bw.close();
-            } catch (IOException e) {
+            }
+            catch (IOException e) {
                 e.printStackTrace();
             }
         }
@@ -821,30 +846,30 @@ public class Grid {
 class Cell {
 
     /** Name of the owner of this cell, if any */
-    public String           owner;
+    public String owner;
     /**
      * The altitude information for the different layers at this cell. Each
      * element in the array represents the top altitude of a layer.
      */
-    public Integer[]        layers;
+    public Integer[] layers;
     /** The rate of gas flow at this cell, for each layer. */
-    public Integer[]        gas;
+    public Integer[] gas;
     /** The rate of oil flow at this cell, for each layer. */
-    public Integer[]        oil;
+    public Integer[] oil;
     /** The x coordinate of this cell (horizontal-right). */
-    public int              xCoord;
+    public int xCoord;
     /** The y coordinate of this cell (vertical-down). */
-    public int              yCoord;
+    public int yCoord;
     /** The type of rock, as a string at this cell, for each layer. */
     public LithologicType[] rocktype;
     /** Boolean value true if this cell has been drilled */
-    public boolean          isDrilled;
+    public boolean isDrilled;
     /** Boolean value true if this cell is currently owned */
-    public boolean          isOwned;
+    public boolean isOwned;
     /** Boolean value true if seismic info exists for this cell */
-    public boolean          seismicExists;
+    public boolean seismicExists;
     /** Boolean array indicating if the layer exists at this location */
-    public boolean[]        layerExists;
+    public boolean[] layerExists;
 
     /**
      * Constructor to initialize all the arrays in Cell
