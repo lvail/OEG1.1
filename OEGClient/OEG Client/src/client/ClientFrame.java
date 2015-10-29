@@ -142,7 +142,6 @@ public class ClientFrame implements ActionListener {
                 operator = new ClientOperator(this, team, serverSocket);
                 GUI.setOperator(operator);
                 serverSocket.sendLogin(register, team, password);
-                System.out.println("*****Connected to " + ip);
             }
             else {
                 JOptionPane.showMessageDialog(login,
@@ -188,7 +187,6 @@ public class ClientFrame implements ActionListener {
     /** ActionPerform handler called when the second timer hits zero */
     public void actionPerformed(ActionEvent e) {
         updateDisplay();
-        System.out.println("*****Frame Updating");
     }
 
     /**
@@ -232,7 +230,6 @@ public class ClientFrame implements ActionListener {
             GUI.flashTimer(2);
         // If we've completed the countdown beep and display new page
         GUI.setBank(operator.getBank().getAdjustedBalance());
-        System.out.println("Bank updat  " + minutes);
     }
 
     /**

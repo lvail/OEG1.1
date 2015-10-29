@@ -124,7 +124,6 @@ public class LithologicType {
         fullName = fullNames[rockCode - 601];
         shortName = abbrNames[rockCode - 601];
         imagePath = "../../images/lithPatterns/" + rockCode + ".gif";
-        System.out.println(imagePath);
     }
 
     /**

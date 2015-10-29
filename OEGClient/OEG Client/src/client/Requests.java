@@ -1029,7 +1029,6 @@ public class Requests extends JFrame {
      */
     public void constructMap(Point p) {
         map = new Map(this, p);
-        System.out.println("Plz work");
         mapScrollPane.setViewportView(map);
         /* mapPane.add(map); */ // WHY IS THIS IS COMMENTED OUT?
 
@@ -1059,7 +1058,6 @@ public class Requests extends JFrame {
      * Info box using the last known selected coordinates.
      */
     public void refreshGUI() {
-        System.out.println("Repaint");
         map.repaint();
         map.setCellInfo(map.lastX, map.lastY);
 
